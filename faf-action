@@ -1,0 +1,5 @@
+#!/bin/bash
+# Runs faf action inside a non-running docker
+source config
+
+$DR sudo -u postgres /usr/bin/pg_ctl start -D /var/lib/pgsql/data -w && sudo -u faf faf "$@"
