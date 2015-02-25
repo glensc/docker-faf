@@ -19,5 +19,5 @@ sudo -u faf faf-migrate-db --create-all;
 sudo -u faf faf-migrate-db --stamp-only;
 sudo -u faf faf init;
 "
-echo -e "Recommended now:\n $ ./faf-action pull-releases -o fedora -vd\n $ ./faf-action pull-releases -o centos -vd"
-echo -e "Add different Operating system releases like:\n ./faf-action releaseadd -o rhel --opsys-release '7.0'"
+echo -e "Recommended now:\n $ ./faf-docker-run faf-action pull-releases -o fedora -vd\n $ ./faf-docker-run faf-action pull-releases -o centos -vd"
+echo -e "Add different Operating system releases like:\n ./faf-docker-run faf-action releaseadd -o rhel --opsys-release '7.0'"

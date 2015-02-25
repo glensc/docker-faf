@@ -10,9 +10,12 @@ EXPOSE 80
 
 ADD faf-run /usr/local/bin/faf-run
 RUN chmod +x /usr/local/bin/faf-run
-ADD crontab /etc/crontab
-RUN crontab /etc/crontab
+ADD faf-action /usr/local/bin/faf-action
+RUN chmod +x /usr/local/bin/faf-action
+ADD crontab-faf /etc/faf/crontab-faf
+RUN crontab -u faf /etc/faf/crontab-faf
 RUN sed -i -e"s/CreateComponents\s*=\s*False/CreateComponents = True/i" /etc/faf/faf.conf
+RUN sed -i -e"s/type\s*=\s*simple/type = null/i" /etc/faf/plugins/web2.conf
 
 VOLUME /var/lib/pgsql
 VOLUME /var/spool/faf
