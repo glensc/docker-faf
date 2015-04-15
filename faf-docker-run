@@ -1,8 +1,0 @@
-#!/bin/bash
-# Runs a command inside the container
-# For running command inside a running container, use
-# sudo docker exec -i -t CONTAINER_ID bash
-
-source config
-
-$DR "$@"

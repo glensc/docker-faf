@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PGDIR=${HOST}/${DATADIR}/pgsql
+FAFDIR=${HOST}/${DATADIR}/faf
+
+mkdir -p ${PGDIR}/data ${FAFDIR} ${HOST}/${CONFDIR}
+
+chown postgres:postgres ${PGDIR}/data;
+sudo -u postgres /usr/bin/pg_ctl initdb -D ${PGDIR}/data;
+
+mkdir -p ${FAFDIR}/reports ${FAFDIR}/reports/incoming ${FAFDIR}/reports/saved ${FAFDIR}/reports/deferred ${FAFDIR}/lob;
+chown -R faf:faf ${FAFDIR};
+
+cp -r /etc/faf/* ${HOST}/${CONFDIR}/
+
+sudo -u postgres /usr/bin/pg_ctl start -D ${PGDIR}/data -w;
+sudo -u postgres psql -c "CREATE USER faf;";
+sudo -u postgres psql -c "CREATE DATABASE faf;";
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE faf TO faf;";
+sudo -u postgres psql -d faf -c "CREATE EXTENSION semver;";
+sudo -u faf faf-migrate-db --create-all;
+sudo -u faf faf-migrate-db --stamp-only;
+sudo -u faf faf init;
